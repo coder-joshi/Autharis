@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: autharis-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: autharis
+      POSTGRES_PASSWORD: local_dev_password
+      POSTGRES_DB: autharis
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

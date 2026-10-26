@@ -8,16 +8,20 @@
     "test": "tests"
   },
   "scripts": {
-  "dev": "tsx watch apps/server/src/server.ts",
-  "build": "tsc",
-  "start": "node dist/apps/server/src/server.js",
-  "typecheck": "tsc --noEmit",
-  "test": "vitest run",
-  "test:watch": "vitest",
-  "lint": "eslint .",
-  "format": "prettier --write .",
-  "format:check": "prettier --check ."
-},
+    "dev": "tsx watch apps/server/src/server.ts",
+    "build": "tsc",
+    "start": "node dist/apps/server/src/server.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:check": "drizzle-kit check",
+    "db:studio": "drizzle-kit studio"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/coder-joshi/Autharis.git"
@@ -32,15 +36,19 @@
   "homepage": "https://github.com/coder-joshi/Autharis#readme",
   "dependencies": {
     "dotenv": "^18.0.9",
+    "drizzle-orm": "^0.45.4",
     "express": "^5.3.0",
     "helmet": "^8.3.0",
+    "pg": "^8.23.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.5",
+    "@types/pg": "^8.23.1",
     "@types/supertest": "^7.2.1",
+    "drizzle-kit": "^0.31.11",
     "eslint": "^10.13.0",
     "prettier": "^3.9.10",
     "supertest": "^7.3.1",

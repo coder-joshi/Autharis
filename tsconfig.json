@@ -13,6 +13,7 @@
     "types": ["node"]
   },
   "include": [
+    "drizzle.config.ts",
     "apps/server/src/**/*.ts",
     "tests/**/*.ts"
   ]

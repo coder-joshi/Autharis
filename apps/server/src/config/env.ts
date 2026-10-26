@@ -15,7 +15,14 @@ const envSchema = z.object({
 
   DATABASE_URL: z.string().optional(),
 
-  AUTHARIS_ISSUER: z.string().url()
+  AUTHARIS_ISSUER: z
+  .string()
+  .url()
+  .refine((v) => new URL(v).origin === v, "must be an origin with no path or trailing slash")
+  .refine(
+    (v) => process.env.NODE_ENV !== "production" || v.startsWith("https://"),
+    "must use https in production",
+  ),
 });
 
 export const env = envSchema.parse(process.env);
