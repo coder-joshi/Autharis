@@ -62,22 +62,22 @@ Availability protections must account for resource-intensive requests, authentic
 
 The following assets require explicit protection.
 
-| Asset | Security concern |
-|---|---|
-| User credentials | Account compromise and impersonation. |
-| User identity data | Unauthorized disclosure or modification. |
-| Authorization codes | Unauthorized token issuance through code theft or replay. |
-| Access tokens | Unauthorized access to protected resources. |
-| Refresh tokens | Unauthorized acquisition of replacement tokens. |
-| Signing keys | Forged tokens and compromise of token trust. |
-| Confidential-client secrets | Unauthorized client authentication. |
-| User sessions | Session hijacking and unauthorized account access. |
-| Client registrations | Malicious redirects and client impersonation. |
-| Redirect URI configuration | Authorization-code or token leakage. |
-| Administrative privileges | Unauthorized control over users and clients. |
-| Database credentials | Unauthorized access to persistent application data. |
-| Environment secrets | Compromise of application and infrastructure security. |
-| Audit and security logs | Loss of investigation capability or exposure of sensitive information. |
+| Asset                       | Security concern                                                       |
+| --------------------------- | ---------------------------------------------------------------------- |
+| User credentials            | Account compromise and impersonation.                                  |
+| User identity data          | Unauthorized disclosure or modification.                               |
+| Authorization codes         | Unauthorized token issuance through code theft or replay.              |
+| Access tokens               | Unauthorized access to protected resources.                            |
+| Refresh tokens              | Unauthorized acquisition of replacement tokens.                        |
+| Signing keys                | Forged tokens and compromise of token trust.                           |
+| Confidential-client secrets | Unauthorized client authentication.                                    |
+| User sessions               | Session hijacking and unauthorized account access.                     |
+| Client registrations        | Malicious redirects and client impersonation.                          |
+| Redirect URI configuration  | Authorization-code or token leakage.                                   |
+| Administrative privileges   | Unauthorized control over users and clients.                           |
+| Database credentials        | Unauthorized access to persistent application data.                    |
+| Environment secrets         | Compromise of application and infrastructure security.                 |
+| Audit and security logs     | Loss of investigation capability or exposure of sensitive information. |
 
 The system must protect both the assets themselves and the operations that create, validate, modify, and revoke them.
 
@@ -572,18 +572,18 @@ Automated tests are necessary but do not replace a security review.
 
 The following threats deserve particular attention during early implementation.
 
-| Priority | Threat | Reason |
-|---|---|---|
-| Critical | Private signing-key compromise | May undermine trust in tokens issued by the provider. |
-| Critical | Authorization-code theft or replay | Can result in unauthorized token issuance. |
-| Critical | Token validation failures | May cause invalid identities or tokens to be accepted. |
-| High | Redirect URI validation failures | Can expose authorization responses to attackers. |
-| High | Client authentication weaknesses | Can permit unauthorized client impersonation. |
-| High | Broken access control | Can expose user data or administrative operations. |
-| High | Session hijacking | Can allow unauthorized use of authenticated sessions. |
-| High | Credential compromise | Can enable account impersonation. |
-| Medium to High | Denial of service | Can prevent legitimate authentication requests from succeeding. |
-| Medium to High | Sensitive information in logs | Can expose credentials, tokens, or internal configuration. |
+| Priority       | Threat                             | Reason                                                          |
+| -------------- | ---------------------------------- | --------------------------------------------------------------- |
+| Critical       | Private signing-key compromise     | May undermine trust in tokens issued by the provider.           |
+| Critical       | Authorization-code theft or replay | Can result in unauthorized token issuance.                      |
+| Critical       | Token validation failures          | May cause invalid identities or tokens to be accepted.          |
+| High           | Redirect URI validation failures   | Can expose authorization responses to attackers.                |
+| High           | Client authentication weaknesses   | Can permit unauthorized client impersonation.                   |
+| High           | Broken access control              | Can expose user data or administrative operations.              |
+| High           | Session hijacking                  | Can allow unauthorized use of authenticated sessions.           |
+| High           | Credential compromise              | Can enable account impersonation.                               |
+| Medium to High | Denial of service                  | Can prevent legitimate authentication requests from succeeding. |
+| Medium to High | Sensitive information in logs      | Can expose credentials, tokens, or internal configuration.      |
 
 These are initial qualitative priorities, not the results of a completed risk assessment. Severity should be reassessed as implementation details and deployment assumptions become known.
 

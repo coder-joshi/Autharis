@@ -42,20 +42,20 @@ Autharis is being developed for:
 
 The following capabilities represent the project's intended direction. Their implementation status will evolve as development progresses.
 
-| Feature | Description |
-|---|---|
-| Identity management | Manage user identities and associated information. |
-| Client registration | Register applications that integrate with Autharis. |
-| OpenID Connect | Enable standardized user authentication for compatible applications. |
+| Feature                           | Description                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------------------ |
+| Identity management               | Manage user identities and associated information.                                   |
+| Client registration               | Register applications that integrate with Autharis.                                  |
+| OpenID Connect                    | Enable standardized user authentication for compatible applications.                 |
 | Authorization Code Flow with PKCE | Support a modern authorization flow for public clients and other applicable clients. |
-| Provider discovery | Publish provider configuration through a standard discovery endpoint. |
-| JWKS endpoint | Expose public signing keys for token verification. |
-| ID tokens | Communicate authenticated user identity to OIDC clients. |
-| UserInfo endpoint | Provide identity claims to authorized clients. |
-| Session management | Establish and manage authenticated user sessions. |
-| Token lifecycle management | Handle token issuance, expiration, renewal, and revocation where applicable. |
-| Management interface | Provide tools for managing users, clients, and provider configuration. |
-| Self-hosted deployment | Document deployment, configuration, upgrades, and operational procedures. |
+| Provider discovery                | Publish provider configuration through a standard discovery endpoint.                |
+| JWKS endpoint                     | Expose public signing keys for token verification.                                   |
+| ID tokens                         | Communicate authenticated user identity to OIDC clients.                             |
+| UserInfo endpoint                 | Provide identity claims to authorized clients.                                       |
+| Session management                | Establish and manage authenticated user sessions.                                    |
+| Token lifecycle management        | Handle token issuance, expiration, renewal, and revocation where applicable.         |
+| Management interface              | Provide tools for managing users, clients, and provider configuration.               |
+| Self-hosted deployment            | Document deployment, configuration, upgrades, and operational procedures.            |
 
 Only features that have been implemented and tested should be described as available.
 
@@ -63,20 +63,20 @@ Only features that have been implemented and tested should be described as avail
 
 Autharis currently uses the following development stack.
 
-| Component | Technology |
-|---|---|
-| Language | TypeScript |
-| Runtime | Node.js |
-| HTTP framework | Express 5 |
-| Request and configuration validation | Zod |
-| Environment configuration | dotenv |
-| HTTP security headers | Helmet |
-| Database | PostgreSQL (planned) |
-| ORM | Drizzle ORM (planned) |
-| Testing | Vitest and Supertest |
-| Linting | ESLint |
-| Formatting | Prettier |
-| Development execution | tsx |
+| Component                            | Technology            |
+| ------------------------------------ | --------------------- |
+| Language                             | TypeScript            |
+| Runtime                              | Node.js               |
+| HTTP framework                       | Express 5             |
+| Request and configuration validation | Zod                   |
+| Environment configuration            | dotenv                |
+| HTTP security headers                | Helmet                |
+| Database                             | PostgreSQL (planned)  |
+| ORM                                  | Drizzle ORM (planned) |
+| Testing                              | Vitest and Supertest  |
+| Linting                              | ESLint                |
+| Formatting                           | Prettier              |
+| Development execution                | tsx                   |
 
 The database and ORM are part of the intended architecture; they are not listed among the current dependencies in `package.json`.
 

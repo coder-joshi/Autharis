@@ -306,13 +306,13 @@ The exact behavior depends on the client type, configured flow, and protocol req
 
 The following endpoints represent the intended protocol surface.
 
-| Endpoint | Purpose |
-|---|---|
-| `/authorize` | Initiate an authorization request. |
-| `/token` | Exchange authorization codes and handle supported token requests. |
-| `/.well-known/openid-configuration` | Publish OpenID Provider metadata. |
-| `/jwks` | Publish public signing-key information in JWKS format. |
-| `/userinfo` | Return authorized identity claims. |
+| Endpoint                            | Purpose                                                           |
+| ----------------------------------- | ----------------------------------------------------------------- |
+| `/authorize`                        | Initiate an authorization request.                                |
+| `/token`                            | Exchange authorization codes and handle supported token requests. |
+| `/.well-known/openid-configuration` | Publish OpenID Provider metadata.                                 |
+| `/jwks`                             | Publish public signing-key information in JWKS format.            |
+| `/userinfo`                         | Return authorized identity claims.                                |
 
 These paths are provisional and may be adjusted to follow the final endpoint configuration and protocol requirements.
 

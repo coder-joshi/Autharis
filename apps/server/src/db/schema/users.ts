@@ -1,9 +1,4 @@
-import {
-  pgTable,
-  text,
-  timestamp,
-  uuid
-} from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -13,18 +8,18 @@ export const users = pgTable("users", {
   passwordHash: text("password_hash"),
 
   emailVerifiedAt: timestamp("email_verified_at", {
-    withTimezone: true
+    withTimezone: true,
   }),
 
   createdAt: timestamp("created_at", {
-    withTimezone: true
+    withTimezone: true,
   })
     .defaultNow()
     .notNull(),
 
   updatedAt: timestamp("updated_at", {
-    withTimezone: true
+    withTimezone: true,
   })
     .defaultNow()
-    .notNull()
+    .notNull(),
 });
