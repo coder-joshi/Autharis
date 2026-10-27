@@ -30,7 +30,7 @@ jobs:
       AUTHARIS_ISSUER: http://localhost:3000
       TEST_DATABASE_URL: postgres://autharis:ci_password@localhost:5432/autharis_test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
@@ -44,7 +44,7 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: 24
