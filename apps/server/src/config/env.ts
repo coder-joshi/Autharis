@@ -6,7 +6,8 @@ const envSchema = z.object({
 
   PORT: z.coerce.number().int().min(1).max(65535).default(3000),
 
-  DATABASE_URL: z.string().optional(),
+  DATABASE_URL: z.string().url(),
+  DB_POOL_MAX: z.coerce.number().int().min(1).max(100).default(10),
 
   AUTHARIS_ISSUER: z
     .string()
