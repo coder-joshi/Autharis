@@ -1,29 +1,15 @@
-import {
-  pgEnum,
-  pgTable,
-  text,
-  timestamp,
-  uuid,
-} from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
-export const userStatus = pgEnum("user_status", [
-  "active",
-  "disabled",
-]);
+export const userStatus = pgEnum("user_status", ["active", "disabled"]);
 
-export const userRole = pgEnum("user_role", [
-  "user",
-  "admin",
-]);
+export const userRole = pgEnum("user_role", ["user", "admin"]);
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
 
   email: text("email").notNull(),
 
-  emailNormalized: text("email_normalized")
-    .notNull()
-    .unique(),
+  emailNormalized: text("email_normalized").notNull().unique(),
 
   emailVerifiedAt: timestamp("email_verified_at", {
     withTimezone: true,
@@ -33,13 +19,9 @@ export const users = pgTable("users", {
 
   displayName: text("display_name"),
 
-  status: userStatus("status")
-    .notNull()
-    .default("active"),
+  status: userStatus("status").notNull().default("active"),
 
-  role: userRole("role")
-    .notNull()
-    .default("user"),
+  role: userRole("role").notNull().default("user"),
 
   createdAt: timestamp("created_at", {
     withTimezone: true,
