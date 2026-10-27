@@ -5,7 +5,7 @@ const healthRouter = Router();
 healthRouter.get("/health", (_req, res) => {
   res.status(200).json({
     status: "ok",
-    service: "autharis"
+    service: "autharis",
   });
 });
 
