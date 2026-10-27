@@ -11,12 +11,9 @@ export default async function setup() {
   process.env.AUTHARIS_ISSUER = "http://localhost:3000";
   process.env.DATABASE_URL = url;
 
-  const { runMigrations } = await import(
-    "../../apps/server/src/infrastructure/database/migrate.js"
-  );
-  const { closeDatabase } = await import(
-    "../../apps/server/src/infrastructure/database/db.js"
-  );
+  const { runMigrations } =
+    await import("../../apps/server/src/infrastructure/database/migrate.js");
+  const { closeDatabase } = await import("../../apps/server/src/infrastructure/database/db.js");
 
   await runMigrations();
   await closeDatabase();
