@@ -11,9 +11,15 @@ export default async function setup() {
   process.env.AUTHARIS_ISSUER = "http://localhost:3000";
   process.env.DATABASE_URL = url;
 
+  const { db, closeDatabase } = await import("../../apps/server/src/infrastructure/database/db.js");
+  const { sql } = await import("drizzle-orm");
+
+  await db.execute(
+    sql`DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public; DROP SCHEMA IF EXISTS drizzle CASCADE;`,
+  );
+
   const { runMigrations } =
     await import("../../apps/server/src/infrastructure/database/migrate.js");
-  const { closeDatabase } = await import("../../apps/server/src/infrastructure/database/db.js");
 
   await runMigrations();
   await closeDatabase();
