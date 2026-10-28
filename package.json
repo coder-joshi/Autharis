@@ -20,7 +20,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:check": "drizzle-kit check",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "validate": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run db:check && npm run build"
   },
   "repository": {
     "type": "git",
