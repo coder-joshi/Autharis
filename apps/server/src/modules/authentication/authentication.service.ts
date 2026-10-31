@@ -57,14 +57,14 @@ async function consumeEmailToken(token: string, purpose: Purpose): Promise<strin
     .returning({ userId: emailTokens.userId });
   return rows[0]?.userId ?? null;
 }
-const link = (path: string, token: string) => `${env.AUTHARIS_ISSUER}${path}?
-token=${encodeURIComponent(token)}`;
+const link = (path: string, token: string) =>
+  `${env.AUTHARIS_ISSUER}${path}?token=${encodeURIComponent(token)}`;
 /** Same observable outcome whether or not the email already exists. */
 export async function registerUser(
   input: { email: string; password: string; displayName?: string },
   ctx: AuditContext,
 ): Promise<void> {
-  const passwordHash = await hashPassword(input.password); // hash first sotiming matches
+  const passwordHash = await hashPassword(input.password); // hash first so timing matches
   try {
     const user = await userService.create({
       email: input.email,

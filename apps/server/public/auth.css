@@ -1,0 +1,34 @@
+body {
+  font-family: system-ui, sans-serif;
+  background: #f5f6f8;
+  margin: 0;
+}
+main {
+  max-width: 26rem;
+  margin: 4rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+}
+label {
+  display: block;
+  margin: 1rem 0 0.25rem;
+  font-weight: 600;
+}
+input {
+  width: 100%;
+  padding: 0.6rem;
+  box-sizing: border-box;
+}
+button {
+  margin-top: 1.25rem;
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+}
+.error {
+  color: #b00020;
+}
+.muted {
+  color: #555;
+  font-size: 0.9rem;
+}
