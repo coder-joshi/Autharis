@@ -11,6 +11,9 @@ import { errorHandler } from "./middleware/error-handler.js";
 import { notFoundHandler } from "./middleware/not-found.js";
 import { createAuthenticationRouter } from "./modules/authentication/authentication.routes.js";
 import { healthRouter } from "./routes/health.routes.js";
+import { loadSession } from "./modules/sessions/session.middleware.js";
+import { createSessionRouter } from "./modules/authentication/session.routes.js";
+
 export interface AppOptions {
   limits?: Partial<LimitConfig>;
 }
@@ -20,13 +23,16 @@ export function createApp(options: AppOptions = {}) {
   app.disable("x-powered-by");
   app.set("trust proxy", env.TRUST_PROXY);
   app.use(helmet());
+
   app.use("/assets", express.static(publicDir, { index: false, maxAge: "1h" }));
   app.use(express.json({ limit: "32kb" }));
   app.use(express.urlencoded({ extended: false, limit: "32kb" }));
   app.use(cookieParser());
+  app.use(loadSession);
   const limiters = createLimiters(options.limits);
   app.use(healthRouter);
   app.use(createAuthenticationRouter(limiters));
+  app.use(createSessionRouter(limiters));
   app.use(notFoundHandler);
   app.use(errorHandler);
   return app;

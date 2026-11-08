@@ -30,6 +30,16 @@ const envSchema = z.object({
     .default("false")
     .refine((v) => v !== "true", "TRUST_PROXY=true trusts every client; use a hop count such as 1")
     .transform((v) => (v === "false" ? false : /^\d+$/.test(v) ? Number(v) : v)),
+  SESSION_IDLE_TTL_SECONDS: z.coerce
+    .number()
+    .int()
+    .min(60)
+    .default(2 * 3600),
+  SESSION_ABSOLUTE_TTL_SECONDS: z.coerce
+    .number()
+    .int()
+    .min(300)
+    .default(12 * 3600),
 });
 
 export const env = envSchema.parse(process.env);
