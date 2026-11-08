@@ -2,6 +2,7 @@ import { db, type DbOrTx } from "../../infrastructure/database/db.js";
 import { isUniqueViolation } from "../../infrastructure/database/error.js";
 import { normalizeEmail } from "./user.validation.js";
 import { userRepository, type UserRow } from "./user.repository.js";
+import { revokeAllUserAccess } from "./revoke-user-access.js";
 export class EmailAlreadyRegisteredError extends Error {
   constructor() {
     super("email already registered");
@@ -35,13 +36,32 @@ export const userService = {
       throw err;
     }
   },
-  findById: (id: string) => userRepository.findById(id),
-  findByEmail: (email: string) => userRepository.findByEmailNormalized(normalizeEmail(email)),
-  markEmailVerified: (id: string) => userRepository.markEmailVerified(id),
-  setPasswordHash: (id: string, hash: string) => userRepository.setPasswordHash(id, hash),
+
+  async findById(id: string, tx: DbOrTx = db): Promise<UserRow | null> {
+    return await userRepository.findById(id, tx);
+  },
+
+  async findByEmail(email: string, tx: DbOrTx = db): Promise<UserRow | null> {
+    return await userRepository.findByEmailNormalized(normalizeEmail(email), tx);
+  },
+
+  async markEmailVerified(id: string, tx: DbOrTx = db): Promise<void> {
+    await userRepository.markEmailVerified(id, tx);
+  },
+
+  async setPasswordHash(id: string, hash: string, tx: DbOrTx = db): Promise<void> {
+    await userRepository.setPasswordHash(id, hash, tx);
+  },
+
   /** Revocation of sessions and tokens is added in Steps 10 and 16. */
-  disable: (id: string) => userRepository.setStatus(id, "disabled"),
-  enable: (id: string) => userRepository.setStatus(id, "active"),
+  async disable(id: string): Promise<void> {
+    await userRepository.setStatus(id, "disabled");
+    await revokeAllUserAccess(id);
+  },
+
+  async enable(id: string, tx: DbOrTx = db): Promise<void> {
+    await userRepository.setStatus(id, "active", tx);
+  },
 };
 /** The only shape of a user that may leave the service layer toward HTTP. */
 export function toSafeUser(user: UserRow) {
