@@ -23,7 +23,7 @@ const envSchema = z.object({
       (v) => process.env.NODE_ENV !== "production" || v.startsWith("https://"),
       "must use https in production",
     ),
-
+  AUTH_CODE_TTL_SECONDS: z.coerce.number().int().min(10).max(600).default(60),
   REQUIRE_EMAIL_VERIFICATION: envBool(true),
   TRUST_PROXY: z
     .string()
