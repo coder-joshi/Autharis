@@ -164,7 +164,9 @@ describe("authorization interactions", () => {
     const app = createApp();
     const res = await request(app).get(authorizeUrl(client.clientId));
     expect(res.status).toBe(303);
-    expect(res.headers.location!).toMatch(/^\/login\?return_to=\/authorize%3F/);
+    const loginRedirect = new URL(res.headers.location!, "http://localhost");
+    expect(loginRedirect.pathname).toBe("/login");
+    expect(loginRedirect.searchParams.get("return_to")).toMatch(/^\/authorize\?/);
     const none = await request(app).get(authorizeUrl(client.clientId, { prompt: "none" }));
     const target = clientResponse(none.headers.location!);
     expect(none.status).toBe(302);

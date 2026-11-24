@@ -74,8 +74,7 @@ export function createAuthorizeRouter(): Router {
         return res.redirect(302, clientError(q, "login_required", "authentication is required"));
       return res.redirect(
         303,
-        `/login?
-return_to=${encodeURIComponent(req.originalUrl)}`,
+        `/login?return_to=${encodeURIComponent(req.originalUrl)}`,
       );
     }
     // 2. Consent. offline_access is only honored when the user explicitly consented to it.
