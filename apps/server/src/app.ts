@@ -15,6 +15,7 @@ import { loadSession } from "./modules/sessions/session.middleware.js";
 import { createSessionRouter } from "./modules/authentication/session.routes.js";
 import { createAuthorizeRouter } from "./modules/oauth/authorization.controller.js";
 import { createTokenRouter } from "./modules/oauth/token.controller.js";
+import { createOidcRouter } from "./modules/oidc/oidc.routes.js";
 
 export interface AppOptions {
   limits?: Partial<LimitConfig>;
@@ -37,6 +38,7 @@ export function createApp(options: AppOptions = {}) {
   app.use(createAuthorizeRouter());
   app.use(createSessionRouter(limiters));
   app.use(createTokenRouter(limiters));
+  app.use(createOidcRouter());
   app.use(notFoundHandler);
   app.use(errorHandler);
   return app;
