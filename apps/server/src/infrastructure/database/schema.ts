@@ -166,3 +166,40 @@ export const sessions = pgTable(
   },
   (t) => [index("sessions_user_idx").on(t.userId)],
 );
+
+export const userConsents = pgTable(
+  "user_consents",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    clientRef: uuid("client_ref")
+      .notNull()
+      .references(() => oauthClients.id, { onDelete: "cascade" }),
+    scopes: text("scopes").array().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("user_consents_user_client").on(t.userId, t.clientRef)],
+);
+export const authorizationCodes = pgTable("authorization_codes", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  codeHash: text("code_hash").notNull().unique(),
+  clientRef: uuid("client_ref")
+    .notNull()
+    .references(() => oauthClients.id, { onDelete: "cascade" }),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  sessionId: uuid("session_id").references(() => sessions.id, { onDelete: "set null" }),
+  redirectUri: text("redirect_uri").notNull(),
+  scope: text("scope").notNull(),
+  nonce: text("nonce"),
+  codeChallenge: text("code_challenge"),
+  codeChallengeMethod: text("code_challenge_method"),
+  authTime: timestamp("auth_time", { withTimezone: true }).notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  consumedAt: timestamp("consumed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
