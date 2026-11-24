@@ -19,10 +19,7 @@ import {
 } from "./authentication.service.js";
 import { loginSchema } from "./authentication.schema.js";
 import { safeReturnTo, stripPromptValue } from "./return-to.js";
-import {
-  queryFromUrl,
-  validateAuthorizationRequest,
-} from "../oauth/authorization.service.js";
+import { queryFromUrl, validateAuthorizationRequest } from "../oauth/authorization.service.js";
 type LoginRequestDescription = { name: string; origin: string } | null;
 
 async function describeRequest(returnTo: string | null): Promise<LoginRequestDescription> {
