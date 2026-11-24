@@ -14,6 +14,7 @@ import { healthRouter } from "./routes/health.routes.js";
 import { loadSession } from "./modules/sessions/session.middleware.js";
 import { createSessionRouter } from "./modules/authentication/session.routes.js";
 import { createAuthorizeRouter } from "./modules/oauth/authorization.controller.js";
+import { createTokenRouter } from "./modules/oauth/token.controller.js";
 
 export interface AppOptions {
   limits?: Partial<LimitConfig>;
@@ -35,6 +36,7 @@ export function createApp(options: AppOptions = {}) {
   app.use(createAuthenticationRouter(limiters));
   app.use(createAuthorizeRouter());
   app.use(createSessionRouter(limiters));
+  app.use(createTokenRouter(limiters));
   app.use(notFoundHandler);
   app.use(errorHandler);
   return app;
