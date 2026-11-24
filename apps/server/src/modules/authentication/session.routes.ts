@@ -1,6 +1,11 @@
 import { Router, type Request, type Response } from "express";
 import { z } from "zod";
-import { csrfField, escapeHtml, renderPage } from "../../infrastructure/http/html.js";
+import {
+  csrfField,
+  escapeHtml,
+  formActionSource,
+  renderPage,
+} from "../../infrastructure/http/html.js";
 import { audit, requestContext } from "../../infrastructure/logging/audit.service.js";
 import type { Limiters } from "../../infrastructure/rate-limiting/rate-limit.middleware.js";
 import { issueCsrfToken, verifyCsrf } from "../../middleware/csrf.js";
@@ -14,10 +19,28 @@ import {
 } from "./authentication.service.js";
 import { loginSchema } from "./authentication.schema.js";
 import { safeReturnTo, stripPromptValue } from "./return-to.js";
+import {
+  queryFromUrl,
+  validateAuthorizationRequest,
+} from "../oauth/authorization.service.js";
+type LoginRequestDescription = { name: string; origin: string } | null;
+
+async function describeRequest(returnTo: string | null): Promise<LoginRequestDescription> {
+  if (!returnTo) return null;
+  const outcome = await validateAuthorizationRequest(queryFromUrl(returnTo));
+  return outcome.kind === "ok"
+    ? {
+        name: outcome.request.client.name,
+        origin: formActionSource(outcome.request.redirectUri),
+      }
+    : null;
+}
+
 function loginPage(
   req: Request,
   res: Response,
   returnTo: string | null,
+  description: LoginRequestDescription,
   error?: string,
   status = 200,
 ) {
@@ -28,8 +51,10 @@ value="${escapeHtml(returnTo)}">`
   renderPage(res, {
     status,
     title: "Sign in",
+    formActionOrigins: description ? [description.origin] : [],
     body:
-      `<h1>Sign in</h1>${error ? `<p class="error">${escapeHtml(error)}</p>` : ""}` +
+      `<h1>Sign in</h1>${description ? `<p class="muted">Sign in to continue to ${escapeHtml(description.name)}</p>` : ""}` +
+      `${error ? `<p class="error">${escapeHtml(error)}</p>` : ""}` +
       `<form method="post" action="/login">${csrfField(issueCsrfToken(req, res))}${hidden}` +
       `<label for="email">Email</label><input id="email" name="email"
 type="email" required maxlength="254" autocomplete="username">` +
@@ -43,13 +68,17 @@ href="/register">Create account</a></p>`,
 }
 export function createSessionRouter(limiters: Limiters): Router {
   const r = Router();
-  r.get("/login", (req, res) => loginPage(req, res, safeReturnTo(req.query.return_to)));
+  r.get("/login", async (req, res) => {
+    const returnTo = safeReturnTo(req.query.return_to);
+    return loginPage(req, res, returnTo, await describeRequest(returnTo));
+  });
   r.post("/login", limiters.loginIp, limiters.loginEmail, verifyCsrf, async (req, res) => {
     const body = (req.body ?? {}) as Record<string, unknown>;
     const returnTo = safeReturnTo(body.return_to);
+    const description = await describeRequest(returnTo);
     const parsed = loginSchema.safeParse(body);
     if (!parsed.success)
-      return loginPage(req, res, returnTo, "Enter your email and password.", 400);
+      return loginPage(req, res, returnTo, description, "Enter your email and password.", 400);
     const ctx = requestContext(req);
     try {
       const user = await authenticate(parsed.data.email, parsed.data.password, ctx);
@@ -72,12 +101,13 @@ export function createSessionRouter(limiters: Limiters): Router {
           req,
           res,
           returnTo,
+          description,
           "Confirm your email address first. Check your inbox.",
           403,
         );
       }
       if (err instanceof InvalidCredentialsError) {
-        return loginPage(req, res, returnTo, "Invalid email or password.", 400);
+        return loginPage(req, res, returnTo, description, "Invalid email or password.", 400);
       }
       throw err;
     }
