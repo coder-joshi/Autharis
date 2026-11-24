@@ -25,3 +25,14 @@ export class OAuthError extends Error {
     super(description);
   }
 }
+import type { ErrorRequestHandler } from "express";
+
+export const oauthErrorHandler: ErrorRequestHandler = (err, _req, res, next) => {
+  if (err instanceof OAuthError) {
+    for (const [key, value] of Object.entries(err.headers)) res.setHeader(key, value);
+    res.setHeader("Cache-Control", "no-store");
+    res.status(err.status).json({ error: err.code, error_description: err.description });
+    return;
+  }
+  next(err);
+};

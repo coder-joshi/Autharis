@@ -24,6 +24,7 @@ const envSchema = z.object({
       "must use https in production",
     ),
   AUTH_CODE_TTL_SECONDS: z.coerce.number().int().min(10).max(600).default(60),
+  ACCESS_TOKEN_TTL_SECONDS: z.coerce.number().int().min(60).max(3600).default(600),
   REQUIRE_EMAIL_VERIFICATION: envBool(true),
   TRUST_PROXY: z
     .string()
